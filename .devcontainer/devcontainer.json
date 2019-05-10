@@ -1,0 +1,10 @@
+{
+    "name": "Ansible",
+    "image": "ansible",
+    "dockerFile": "Dockerfile",
+	"context": "..",
+    "extensions": [
+        "ms-vscode.ansible"
+    ],
+    "shutdownAction": "stopContainer"
+}
