@@ -4,7 +4,8 @@
     "dockerFile": "Dockerfile",
 	"context": "..",
     "extensions": [
-        "ms-vscode.ansible"
+        "vscoss.vscode-ansible",
+        "ms-python.python"
     ],
     "shutdownAction": "stopContainer"
 }
