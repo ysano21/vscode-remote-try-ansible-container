@@ -1,7 +1,11 @@
 {
     "name": "Ansible",
-    "image": "ansible",
+    "image": "ansible-dev",
     "dockerFile": "Dockerfile",
+    // "runArgs": ["--env-file", ".env"],
+    "remoteEnv": {//https://medium.com/galactic1969/vscode%E3%81%AEdevcontainer-json%E3%81%AEremoteenv%E3%81%A7%E3%83%8F%E3%83%9E%E3%81%A3%E3%81%9F%E8%A9%B1-b46158e76d2f
+        "DOCKER_HOST": "${containerEnv:DOCKER_HOST}"
+    },
 	"context": "..",
     "extensions": [
         "vscoss.vscode-ansible",

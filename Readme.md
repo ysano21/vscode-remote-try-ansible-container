@@ -10,16 +10,22 @@ Dockerを用いる理由としては環境を汚さないのと、複数環境�
 
 1. Dockerをインストールし、起動する<br/>
     共有ドライブを有効にすること！（Windowsの場合は**必ずCドライブも追加**）
+    
 2. [VSCode Insiders](https://code.visualstudio.com/insiders/)をインストール<br/>
     該当の拡張機能はまだプレビュー版のため、VSCodeのInsiders版を導入する必要があります<br/>
     ちょっとだけ試してみたい方はZip版がおすすめ
+    
 3. [こちらのサンプルソース](https://github.com/comefigo/vscode-remote-try-ansible-container)をローカルにクローン
+
 4. VSCodeを起動し、拡張機能「[Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)」をインストールする
+
 5. `.devcontainer/requirements.txt`にansible実行時に必要なpythonライブラリを追加することで、コンテナイメージをビルドする際に取り込まれます
+
 6. 「Remote-Containers: Open Folder in Container...」で前述のサンプルソースの「.devcontainer」フォルダがあるディレクトリを選択
 ![vscode-remote-open-folder.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/30522/0d6aa028-8bf6-3ef4-5b40-a260a527c4a6.png)
 
 7. コンテナイメージの自動ビルド、コンテナの作成、拡張機能の自動インストールが行われる
+
 8. ターミナルを「bash」に切り替えて、ansibleコマンドを使ってみましょう！
 ![vscode-remote-open-terminal.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/30522/f6228eac-2cf5-595e-0028-657b2e5c75c5.png)
 
@@ -28,6 +34,31 @@ Dockerを用いる理由としては環境を汚さないのと、複数環境�
     ```
 
 9. **enjoy ansible!**
+
+
+
+## 同じDockerHost上のコンテナにansibleを使用する場合(Windows)
+
+1. DockerDesktopのAPIを有効にする
+
+   DockerDesktop>Setting
+
+   チェック[Expose daemon on tcp://localhost:2375 without TLS]
+
+   ![image-20200911112307262](Readme.assets/image-20200911112307262.png)
+
+   
+
+2. コンテナからHOSTマシン(Windows)上のAPIにアクセスできるようにする
+
+   DockerコンテナからWindowsホストマシンのIPアドレスへの通信をローカルホストのIPアドレスへフォワードする
+
+   ```cmd
+   REM WindowsホストマシンのIPアドレスが192.168.0.1の場合
+   netsh interface portproxy add v4tov4 listenport=2375 listenaddress=192.168.0.1 connectport=2375 connectaddress=127.0.0.1
+   ```
+
+   
 
 ## 環境の再構築
 
@@ -70,3 +101,15 @@ devcontainer.jsonのextensionsで定義されている拡張機能は作成さ�
 
 - 「[Dockerで立ち上げた開発環境をVS Codeで開く!](https://qiita.com/yoskeoka/items/01c52c069123e0298660)」
 - https://github.com/Microsoft/vscode-remote-try-python
+
+
+# y.sano
+## dockerコンテナ作成テスト
+```bash
+cd docker
+ansible-playbook dockerhost_test.yml
+
+#コマンドプロンプトで確認
+> docker ps -a | findstr data_container
+```
+
